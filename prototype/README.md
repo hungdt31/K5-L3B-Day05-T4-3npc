@@ -1,0 +1,1 @@
+# Lab 5: Thiết kế sản phẩm AI cho lúc nó sai
