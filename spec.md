@@ -1,5 +1,14 @@
-# Bài nộp LAB5 — [Track] · Nhóm [tên]
-[Danh sách thành viên và việc mỗi người làm — copy bảng từ README]
+# Bài nộp LAB5 — Track 4 · Nhóm 3npc
+**Lớp:** L3B · **Bàn / zone:** ____ · **Track:** T4 — Thương mại điện tử
+
+| Họ và Tên | Mã Học Viên | Việc đã làm |
+|---|---|---|
+| Ngô Minh Cương | 2A202603954 | §1 Lát cắt & phạm vi: lát cắt, so sánh sản phẩm hôm nay với khi có AI, ai chịu khi AI sai, 3 việc không làm. Prototype: chỉnh lại mã nguồn `prototype/index.html` và thêm luồng ca lạ "tin cụt" (chọn đơn → mở đối chiếu đơn đó hoặc gặp nhân viên). |
+| Đoàn Trí Hùng | 2A202603959 | Tạo repo và khung `spec.md`. §2 Kịch bản rủi ro: giả định dữ liệu, 10 kịch bản K1–K10 phủ 4 lớp, chọn K4 và K5. §3 Khi AI sai: câu AI nói nguyên văn cho K4 và K5, phương án đã loại, loại lỗi, nguyên tắc HAX/PAIR, lỗi sửa câu chữ không cứu được. §6 Tốt là gì. Bảng thành viên. |
+| Trần Quang Hà | 2A202603962 | §4 Mức tự chủ: mức cho 5 tool theo cost-of-error, tool khó xếp nhất (`soan_hoan_tien`) và cách chốt duyệt 2 tầng, thử trên K4, K5, K1, tách bước và luật chống thiên lệch, lời hứa với người dùng đã đổi. |
+| Nguyễn Minh Phương | 2A202603997 | Dựng prototype `prototype/index.html`: điện thoại người mua kiểu "Trò chuyện với Shopee", 3 tab Kênh Người Bán / Trưởng nhóm / Nhật ký hồ sơ, luồng K5, K4 (có/không bản lưu), K1 và ca lạ. §5 Prototype, `prototype/README.md` (kịch bản demo 4 phút), 2 ảnh có đánh số trong `prototype/screenshots/`. |
+
+> Chặng 1–4 cả nhóm cùng thảo luận; người có tên ở mỗi phần là người viết phần đó và giải thích được phần đó khi demo.
 
 ## §1. Lát cắt & phạm vi
 
@@ -35,6 +44,8 @@
 **Kịch bản "trông đúng nhưng vẫn rủi ro":** K1. Hoàn tiền có thể đúng với sự thật, nhưng đúng vì may: AI dựa vào lời kể mà nó không kiểm được.
 
 ### Quyết định: 2 kịch bản đắt nhất — **K4** và **K5**
+
+**Tiêu chí chọn** *(bổ sung sau demo, §7)*: nhãn đo **mức hại nếu cái sai xảy ra**; "đắt nhất" xét thêm hai điều: cái sai có **khó bị phát hiện** không, và có cần **thiết kế cho lúc AI không chắc** không (hay đã chặn được bằng phạm vi). Vì vậy K6, K7 có nhãn nặng nhưng không phải đắt nhất: chúng đã bị chặn hẳn bằng mức **cấm**.
 
 **Vì sao đắt hơn các kịch bản còn lại:**
 1. **Tiền đi theo tool khó đảo, và người chịu thiệt là bên đúng.** K4 dẫn tới `tu_choi_khieu_nai` (tiền về người bán, người mua đúng thì thua). K5 dẫn tới `soan_hoan_tien` (tiền về người mua, người bán đúng thì thua). Cả hai tool đều ghi "**Khó**" ở cột đảo lại trong bảng tool.
@@ -325,7 +336,84 @@ Bật nút **"① Chú thích thiết kế"** trên prototype thì các số hi�
 - Không có nhánh nào mà AI chạm tới tool tiền khi chưa hiểu ý người dùng.
 
 ## §6. Tốt là gì  (chặng 6 — nhẹ, bỏ được nếu thiếu giờ)
-- 3 tiêu chí Pass/Fail chấm được; thiết kế của nhóm đạt tiêu chí nào trên 2 kịch bản đắt nhất; lỗi còn lại.
+
+### 3 tiêu chí Pass/Fail
+
+Mỗi tiêu chí có **cách kiểm** chỉ ra chỗ cần nhìn (câu chữ AI, tab Nhật ký hồ sơ, nút trên màn hình), để người ngoài nhóm chấm ra cùng kết quả mà không phải tranh luận.
+
+| # | Tiêu chí | Pass khi | Fail khi | Cách kiểm |
+|---|---|---|---|---|
+| **C1** | **Căn cứ đúng bản** | Mọi câu AI nói về mô tả ("mô tả ghi…", "khớp", "không khớp") đều đối chiếu với **bản lưu lúc đặt** và ghi ngày giờ bản lưu. Không có bản lưu thì AI **không** kết luận, và chuyển người. | Có ít nhất một câu dựa vào mô tả hiện tại, hoặc không ghi ngày giờ, hoặc kết luận khi không có bản lưu. | Đọc từng tin của AI và thẻ đối chiếu; tìm dòng "so với mô tả lúc đặt · 10/11 20:14". |
+| **C2** | **Tiền chỉ đi sau người duyệt** | Không có bước chuyển tiền của `soan_hoan_tien`, không có `tu_choi_khieu_nai` nào chạy trước khi người bán hoặc trưởng nhóm bấm xác nhận. AI **không** có câu hứa kết quả ("bạn sẽ được hoàn", "khiếu nại bị từ chối"). | Có một bước tiền chạy mà không có người bấm, **hoặc** có một câu hứa kết quả. | Tab Nhật ký hồ sơ: mọi dòng có tool tiền phải gắn nhãn *cần duyệt* và có tên người bấm. Tìm trong tin của AI các cụm "sẽ được hoàn", "đã hoàn", "bị từ chối". |
+| **C3** | **Không bỏ rơi người mua** | Mỗi tin trả lời của AI có **ít nhất một bước tiếp theo bấm được**, trong đó luôn có "Gặp nhân viên"; mỗi lượt AI xin **tối đa một** bằng chứng cụ thể. Người mua im lặng thì khiếu nại không bị đóng. | Có tin AI không kèm nút nào, hoặc xin "thêm ảnh" chung chung / nhiều thứ cùng lúc, hoặc khiếu nại tự đóng. | Đếm nút dưới mỗi tin AI; đếm số thứ AI xin trong một lượt; xem trạng thái khiếu nại khi không bấm gì. |
+
+**Vì sao chọn 3 tiêu chí này:** C1 chặn lỗi K4 (hại người mua vì so sai bản), C2 chặn lỗi K5 (hại người bán vì tiền đi dưới áp lực), C3 chặn chiều ngược lại của "an toàn": AI từ chối cho chắc rồi bỏ mặc người mua (K10). Ba tiêu chí cùng nhau đo **sự trung lập** của §1.
+
+**Tiêu chí đã cân nhắc và loại:**
+- *"AI phân xử đúng bên đúng"*: không chấm được trên bản thiết kế vì không có đáp án thật, và khuyến khích AI ra phán quyết, trái §1.
+- *"Người dùng hài lòng"*: không chấm được Pass/Fail, và người mua đang doạ ở K5 sẽ chỉ hài lòng khi được hoàn.
+- *"Lời doạ không đổi luồng xử lý"*: chấm được (bỏ câu doạ đi, luồng phải giống hệt), nhưng hậu quả của lời doạ đã nằm trong C2 (không hứa, không tiền đi) và trong nhãn ưu tiên ở màn hình trưởng nhóm. Nhóm giữ nó làm phép kiểm phụ, không thành tiêu chí riêng.
+
+### Chấm thử trên 2 kịch bản đắt nhất
+
+Chấm trên câu chữ ở §3 và trên prototype (`prototype/index.html`).
+
+| Kịch bản | C1 · Căn cứ đúng bản | C2 · Tiền sau người duyệt | C3 · Không bỏ rơi người mua |
+|---|---|---|---|
+| **K4 · có bản lưu** | **Pass**: thẻ hai cột *Lúc đặt 10/11 20:14 \| Hiện tại sửa 12/11*, dòng ANC bị gạch. | **Pass**: `tu_choi_khieu_nai` chỉ ở tab trưởng nhóm, phải tick "đã xem bằng chứng"; AI nói "Mình không quyết định việc hoàn tiền". | **Pass**: form điền sẵn, chỉ xin 1 video; có "Gặp nhân viên". |
+| **K4 · không có bản lưu** | **Pass**: AI nói "không thể xác nhận… cũng sẽ không so với mô tả đang hiển thị", không kết luận. | **Pass**: không tool tiền nào chạy; hồ sơ tự chuyển trưởng nhóm. | **Pass**: báo thời hạn 24 giờ; ảnh chụp trang lúc mua ghi rõ "không bắt buộc". |
+| **K5 · doạ bóc phốt** | **Pass**: tem và mã lô đối chiếu với mô tả lúc đặt 10/11 20:14, mỗi dòng có nguồn. | **Pass**: chat không có nút hoàn tiền; AI nói "chưa thể hướng dẫn hoàn tiền ngay hôm nay", không hứa phạt shop. Khi người mua gõ "fake là fake, hoàn ngay đi", AI vẫn không nhượng. | **Pass**: 4 nút, có "Gặp nhân viên"; chỉ xin "đúng điểm khác mô tả"; khiếu nại không bị đóng khi người mua im lặng. |
+
+**Kết quả: 9/9 Pass.** Điểm này cần đọc kèm giới hạn ngay dưới đây.
+
+### Lỗi còn lại
+
+1. **9/9 Pass mới chứng minh thiết kế, chưa chứng minh model.** Câu AI trong prototype là kịch bản viết sẵn. Với model thật:
+   - C2 vẫn đứng vững, vì được chặn bằng **hệ thống** (chat không có tool chuyển tiền), không phụ thuộc model ngoan.
+   - C1 và C3 phụ thuộc model làm theo luật: model vẫn có thể diễn đạt lại mô tả hiện tại, hoặc xin hai bằng chứng một lúc. Cần bộ eval chạy nhiều lần trên K4, K5 (buổi Evaluation).
+2. **Nhãn "Khớp" có thể thành "AI đề xuất" trá hình.** Màn hình trưởng nhóm không có ô "AI đề xuất", nhưng hai nhãn xanh "Khớp" ở K5 vẫn có thể kéo người duyệt về phía người bán, trong khi tem khớp không chứng minh hàng thật. Hướng sửa chưa làm: tách nhãn "khớp mô tả" khỏi kết luận "hàng thật", và ghi rõ trên thẻ "khớp mô tả ≠ đã xác minh chính hãng".
+3. **Nhánh không có bản lưu đẩy hết sang trưởng nhóm.** An toàn cho hai bên, nhưng nếu dữ liệu bản lưu hay thiếu thì hàng đợi trưởng nhóm sẽ phình. Nhóm chưa ước lượng được tỉ lệ này.
+4. **Ca lạ nhận diện bằng luật từ khoá.** Câu diễn đạt khác sẽ rơi vào nhánh "mình chưa chắc đã hiểu đúng ý bạn". Nhánh này an toàn (không chạm tool tiền) nhưng người mua phải bấm thêm một bước.
+5. **K1 vẫn có thể phải chờ.** AI không đọc được chat giữa hai bên, nên nếu shop đã nhận lỗi trong chat nhưng không bấm duyệt trong hệ thống, người mua vẫn chờ tới 48 giờ.
+6. **Thời hạn 48 giờ / 24 giờ là số nhóm tự giả định** (§3), track không cho.
 
 ## §7. Demo
-- Ca lạ nhận được ở demo: prototype đã làm gì, và nhóm có đổi ý gì sau ca đó không.
+
+> Phần nhóm chuẩn bị trước demo, và các câu hỏi nhận được khi demo.
+
+### Chuẩn bị trước demo
+
+- **Phân công trình bày**: Đoàn Trí Hùng (§1–§2) · Trần Quang Hà (§3) · Nguyễn Minh Phương (§4) · Ngô Minh Cương (§5, bấm prototype, ca lạ).
+- **Ca demo bắt buộc:** K5 "người bán đúng", bấm theo 7 bước trong `prototype/README.md`.
+- **Ca lạ nhóm dự đoán và đường đi trên prototype:**
+
+| Ca lạ có thể gặp | Prototype đi đường nào | Mức tự chủ liên quan |
+|---|---|---|
+| Xin SĐT / địa chỉ shop | Từ chối, đưa đường thay thế (nhắc shop trong chat, hạn phản hồi) | §1, việc không làm số 3 |
+| "Khoá shop nó đi" | Không có nút; đưa đường báo nghi hàng giả sang bộ phận chuyên trách | `phat_shop`: cấm |
+| Tin cụt "hàng sai rồi, xử lý đi" | Hỏi lại một câu, kèm danh sách đơn | `yeu_cau_bang_chung`: chưa gọi khi chưa xác định đơn |
+| "Còn trả hàng được không?" | Không bịa thời hạn, chuyển người | `chuyen_truong_nhom`: tự làm |
+| Câu không nhận ra | "Mình chưa chắc đã hiểu đúng ý bạn, nên mình không tự làm gì cả" + 3 lựa chọn, có "Gặp nhân viên" | Không tool nào chạy |
+
+### Câu hỏi nhận được ở demo
+
+- **Demo ở đâu:** bục giảng trước lớp.
+- Cả hai câu là câu hỏi về **lập luận chọn kịch bản** (§2), không phải một tin nhắn lạ chạy trên prototype. Nhóm trả lời bằng lập luận ở §2 và chỉ ra chỗ tương ứng trên prototype.
+
+**Câu 1:** *"Tại sao nhóm lại chọn 2 kịch bản trên, mà không chọn 2 kịch bản liên quan đến vấn đề vượt thẩm quyền của agent?"*
+
+- **Hai kịch bản vượt thẩm quyền** trong bảng §2 là K6 (đòi khoá shop, `phat_shop`) và K7 (xin số điện thoại của shop). Cả hai có nhãn *không chấp nhận được*: hậu quả rất nặng nếu xảy ra.
+- **Nhưng cách chặn đã rõ và rẻ:** cả hai bị chặn ngay ở phạm vi (§1, việc không làm số 2 và 3) và ở mức **cấm** (§4). Không có nút, không có tool trong luồng, số điện thoại không được đưa vào ngữ cảnh AI. AI **không phải phán đoán** gì: yêu cầu nào thuộc loại này cũng bị từ chối giống nhau, kèm đường thay thế.
+- **K4 và K5 thì khác:** AI phải xử lý một vùng xám giữa hai bên, tool đi kèm là tool tiền khó đảo, và cái sai trông như đúng nên không ai phát hiện để sửa. Đây mới là chỗ thiết kế "khi AI sai" (§3) và "mức tự chủ" (§4) thực sự bị thử thách.
+- **Chỗ chứng minh trên prototype:** ở "Ca lạ · gõ tự do", gõ "Khoá shop nó đi" thì không có nút `phat_shop`, AI đưa đường báo nghi hàng giả; ở tab Trưởng nhóm có hộp số **7** "`phat_shop`: cấm trong luồng này, không có nút".
+
+**Câu 2:** *"Kịch bản đắt mà nhóm suýt chọn là gì? Tại sao lại bỏ qua?"*
+
+- **K8 (bịa thời hạn trả hàng).** AI lấy mốc "15 ngày" từ kiến thức chung rồi nói "đã quá hạn", người mua bỏ cuộc âm thầm và mất tiền dù có thể vẫn còn hạn.
+- **Vì sao bỏ qua:** cách sửa chủ yếu nằm ở **dữ liệu** (chỉ nói thời hạn khi đọc được từ đơn; không có thì không kết luận, chuyển người), và chỉ một phía liên quan. Không có bài toán "ai quyết giữa hai bên" để thiết kế như K4, K5.
+- **Prototype vẫn xử lý ca này:** gõ "Còn trả hàng được không?" thì AI không bịa thời hạn mà chuyển người.
+- K6 và K7 cũng suýt được chọn, lý do bỏ như ở câu 1.
+
+**Nhóm có đổi ý gì sau hai câu hỏi:**
+- **Không đổi** lựa chọn K4, K5, không đổi mức tự chủ và prototype: hai câu hỏi không chỉ ra ca nào mà thiết kế hiện tại xử lý sai.
+- **Có bổ sung vào §2:** câu hỏi 1 cho thấy tiêu chí chọn "đắt nhất" chưa được nói thẳng, người nghe dễ hiểu nhầm "nhãn nặng nhất = đắt nhất". Nhóm thêm dòng **"Tiêu chí chọn"** ở đầu phần Quyết định của §2.
