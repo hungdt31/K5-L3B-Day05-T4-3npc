@@ -253,9 +253,60 @@ Khi `soan_hoan_tien` chuyển từ "AI tự làm" sang "AI soạn, người bán
 Lời hứa mới nhỏ hơn nhưng giữ được. Nó cũng bỏ hẳn một lời hứa ngầm mà lời doạ ở K5 khai thác: "nói to thì được hoàn nhanh". Tương tự, `tu_choi_khieu_nai` cần nhân viên duyệt nên sản phẩm hứa được: ***"Khiếu nại của bạn chỉ đóng khi bạn rút, hoặc khi nhân viên quyết định. AI không đóng thay bạn."***
 
 ## §5. Prototype  (chặng 5)
-- Link hoặc file · công cụ · phần nào mock · có lời gọi AI thật không.
-- 1–2 ảnh có đánh số; mỗi số: thể hiện gì · nguyên tắc HAX/PAIR nào · mức tự chủ nào.
-- Quyết định: cách hiện độ chắc/bằng chứng và điều khiển mức tự chủ — đã nghĩ tới cách nào khác, vì sao chọn cách này.
+
+- **File:** `prototype/index.html`. Mở bằng trình duyệt là chạy, không cần cài đặt hay backend. Cách bấm demo 4 phút có trong `prototype/README.md`.
+- **Công cụ:** một file HTML + JavaScript thuần, viết cùng một coding agent (Claude Code).
+- **Phần mock:** toàn bộ dữ liệu là dựng (đơn, shop, ảnh, bản lưu mô tả lúc đặt). Câu trả lời của AI là kịch bản viết sẵn, lấy nguyên văn từ §3. Ô gõ tự do dùng luật từ khoá để nhận vài loại ca lạ.
+- **Lời gọi AI thật:** không có.
+- **Bấm qua được:**
+  - **K5** từ đầu tới cuối (ca bắt buộc "người bán đúng"), cùng các nhánh: người mua cãi lại, gửi phản ánh hàng giả, hoàn tác, người bán quá hạn 48 giờ.
+  - **K4** có bản lưu và không có bản lưu, **K1** (ca bình thường), và **ca lạ** gõ tự do.
+- **Ba vai trên cùng một màn hình:** điện thoại người mua bên trái; bên phải là 3 tab **Kênh Người Bán**, **Nhân viên xử lý** và **Nhật ký hồ sơ**. Nhật ký ghi mỗi bước gọi tool nào, ở mức tự chủ nào.
+
+### Ảnh có đánh số
+
+Bật nút **"① Chú thích thiết kế"** trên prototype thì các số hiện đúng chỗ trên màn hình.
+
+**Ảnh 1 — K5, AI trả lời người mua đang doạ:** `prototype/screenshots/1-k5-ai-tra-loi.png`
+**Ảnh 2 — K5, người bán không đồng ý, nhân viên đóng khiếu nại:** `prototype/screenshots/2-k5-nhan-vien-duyet.png`
+
+| Số | Ảnh | Thể hiện gì | Nguyên tắc HAX/PAIR | Mức tự chủ |
+|---|---|---|---|---|
+| **1** | 1, 2 | **Thẻ căn cứ**: ✔ tem phụ khớp · ✔ QR khớp mã lô · ? "mùi nhạt" không kiểm được, kèm dòng "So với: mô tả lúc đặt, lưu 02/11 09:14". Nhân viên và người bán thấy **cùng** thẻ này. | PAIR *Explainability + Trust*, HAX G11 | — (AI tự đối chiếu, không ra quyết định) |
+| **2** | 1 | Nhãn **"Chưa đủ căn cứ kết luận hàng giả"** và câu *"hiện chưa đủ căn cứ để kết luận đây là hàng giả"*. | HAX G10 | — |
+| **3** | 1, 2 | Nhãn **"Trợ lý AI"** trên đầu chat và trên mỗi tin AI; **thanh hồ sơ** ghi *Ai quyết: Bạn / Người bán / Nhân viên* và hạn của bước. | HAX G1 (+ Luật AI 134/2025, Điều 11) | — |
+| **4** | 2 | Nút **"Rút lại, mình tự xử lý tiếp"** trên thẻ "Đã chuyển nhân viên". Trong luồng còn có "Gửi sau 8 giây · **Hoàn tác**" và "**Huỷ đề xuất**". | HAX G9 (sửa dễ dàng) | **tự làm, có hoàn tác** (`chuyen_truong_nhom`, `yeu_cau_bang_chung`, `soan_de_xuat_hoan`) |
+| **5** | 2 | Ô xác nhận **"Đóng khiếu nại: chọn dòng trong bản lưu lúc đặt làm căn cứ"**. Nút xác nhận chỉ bấm được sau khi chọn một dòng (luật L2). Phía người bán có ô tương tự: "Xác nhận hoàn 1.450.000đ… không đảo lại được". | PAIR *Explainability* (người duyệt thấy căn cứ trước khi bấm) | **cần người duyệt** (`thuc_hien_hoan`, `tu_choi_khieu_nai`) |
+| **6** | 2 | Hộp viền đứt **"Xử phạt, trừ uy tín, khoá shop: không có trong luồng này, không có nút"**. Phía người mua chỉ có nút "Gửi phản ánh hàng giả" sang bộ phận chuyên trách. | HAX G1 (nói rõ việc AI không làm) | **cấm** (`phat_shop`) |
+| **7** | 2 | Thẻ **"Đã chuyển nhân viên"**: phản hồi trong 24 giờ, ưu tiên "thường, như mọi hồ sơ". Ở tab nhân viên ghi *"lời doạ không đổi ưu tiên (L4)"*. | PAIR *Errors + Graceful Failure* (luôn có đường lui) | chuyển người |
+
+### Quyết định: cách hiện độ chắc và điều khiển mức tự chủ
+
+**Hiện độ chắc bằng thẻ căn cứ, từng dòng ✔ / ✖ / ?, thay vì một con số độ tin cậy.**
+- **Đã cân nhắc thanh phần trăm** (ví dụ "độ chắc 62%") và nhãn chung "cao / trung bình / thấp".
+- **Lý do loại:**
+  - Ở K5, người mua sẽ cãi lại con số ("62% là sao?"), còn người bán không biết mình thua hay thắng ở điểm nào.
+  - Con số chung cũng che mất chuyện bằng chứng đo được (tem, QR) và lời kể không đo được (mùi) có trọng lượng khác hẳn nhau.
+  - Ở K4, cái cần thấy không phải "AI chắc bao nhiêu" mà là "**so với bản nào**". Chỉ có hai cột *Lúc đặt | Hiện tại*, dòng ANC bị gạch đỏ, mới cho người dùng tự kiểm được.
+- **Thêm một lý do:** thẻ căn cứ dùng chung cho cả ba bên. Người mua, người bán và nhân viên nhìn **cùng một thẻ**, nên "trung lập" là thứ thấy được trên màn hình, không chỉ là lời hứa.
+
+**Điều khiển mức tự chủ: mỗi việc mang nhãn mức, và nút xác nhận nằm ở màn hình của bên chịu thiệt.**
+- **Đã cân nhắc 1:** một nút "Duyệt" chung ngay trong chat của người mua, kiểu "AI đề xuất hoàn, bạn bấm xác nhận". **Loại** vì người mua là bên được lợi khi hoàn tiền. Cho người mua tự duyệt thì đúng như AI tự hoàn (K5).
+- **Đã cân nhắc 2:** chỉ có một màn hình người mua, phần người bán và nhân viên mô tả bằng chữ. **Loại** vì demo bắt buộc của track hỏi "hai bên thấy gì, và ai quyết". Không có màn hình người bán thì không chứng minh được người bán đúng **được nghe**.
+- **Chọn:**
+  - Mỗi thẻ hành động trong chat có nhãn **"tự làm · hoàn tác được"**.
+  - Bước tiền đi chỉ có ở tab của **người bán** hoặc **nhân viên**, kèm ô xác nhận ghi số tiền và "không đảo lại được".
+  - Việc **cấm** không có nút ở bất cứ đâu, chỉ có một dòng nói rõ là không có.
+  - Tab **Nhật ký hồ sơ** gom lại toàn bộ: mỗi bước có nhãn *tự làm / cần duyệt / cấm*, để người xem demo đối chiếu với §4.
+
+**Hoàn tác cho `yeu_cau_bang_chung` bằng cách gửi trễ 8 giây.**
+- Bảng tool ghi tool này "tin đã tới", tức là không thu hồi được. Vì vậy hoàn tác phải xảy ra **trước** khi tin tới.
+- Đã cân nhắc nút "Thu hồi tin" sau khi gửi. **Loại** vì người bán đã đọc rồi thì thu hồi cũng không còn ý nghĩa.
+
+**Ca lạ đi đường nào.**
+- Ô gõ tự do nhận ra: hỏi SĐT/địa chỉ (từ chối và đưa đường thay thế), đòi khoá shop (cấm, có đường phản ánh), tin cụt (hỏi lại một câu kèm danh sách đơn), hỏi thời hạn (không bịa, chuyển người).
+- Câu không nhận ra thì AI nói *"Mình chưa chắc đã hiểu đúng ý bạn, nên mình không tự làm gì cả"*, đưa 3 lựa chọn, trong đó **luôn có "Gặp nhân viên"**.
+- Không có nhánh nào mà AI gọi tool tiền khi chưa hiểu ý người dùng.
 
 ## §6. Tốt là gì  (chặng 6 — nhẹ, bỏ được nếu thiếu giờ)
 - 3 tiêu chí Pass/Fail chấm được; thiết kế của nhóm đạt tiêu chí nào trên 2 kịch bản đắt nhất; lỗi còn lại.
