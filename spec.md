@@ -249,9 +249,80 @@ Nhóm áp dụng nguyên tắc: **tác vụ thu thập/đối chiếu dữ liệ
   -> **Giá trị mang lại:** Đặt lại kỳ vọng chuẩn xác ngay từ đầu (Expectation Alignment). Người mua hiểu rằng muốn được hoàn tiền thì phải dựa trên **bằng chứng đo lường được**, chứ không thể dùng áp lực cảm xúc hay lời đe doạ để ép máy tính chuyển tiền.
 
 ## §5. Prototype  (chặng 5)
-- Link hoặc file · công cụ · phần nào mock · có lời gọi AI thật không.
-- 1–2 ảnh có đánh số; mỗi số: thể hiện gì · nguyên tắc HAX/PAIR nào · mức tự chủ nào.
-- Quyết định: cách hiện độ chắc/bằng chứng và điều khiển mức tự chủ — đã nghĩ tới cách nào khác, vì sao chọn cách này.
+
+- **File:** `prototype/index.html`. Mở bằng trình duyệt là chạy, không cần cài đặt hay backend. Kịch bản demo 4 phút có trong `prototype/README.md`.
+- **Công cụ:** một file HTML + JavaScript thuần, viết cùng một coding agent (Claude Code).
+- **Phần mock:**
+  - Toàn bộ dữ liệu là dựng: đơn, shop, ảnh, bản lưu mô tả lúc đặt 10/11 20:14, shop sửa mô tả 12/11, ghi nhận khiếu nại 14:05 13/11.
+  - Câu AI nói là kịch bản viết sẵn, lấy **nguyên văn §3**.
+  - Ô gõ tự do dùng luật từ khoá để nhận vài loại ca lạ.
+  - Đồng hồ 48 giờ / 24 giờ là giờ mô phỏng, có nút "Tua" để demo quá hạn.
+- **Lời gọi AI thật:** không có.
+- **Màn hình:**
+  - Bên trái: điện thoại người mua (khung iPhone 17, giao diện kiểu "Trò chuyện với Shopee").
+  - Bên phải: 3 tab **Kênh Người Bán** (duyệt tầng 1), **Trưởng nhóm** (duyệt tầng 2) và **Nhật ký hồ sơ** (mỗi bước gọi tool nào, ở mức tự chủ nào).
+- **Bấm qua được:** K5 từ đầu tới cuối (ca bắt buộc "người bán đúng"), K4 có và không có bản lưu, K1 (cả nhánh người bán quá hạn), và ca lạ gõ tự do.
+
+### Ảnh có đánh số
+
+Bật nút **"① Chú thích thiết kế"** trên prototype thì các số hiện đúng chỗ trên màn hình.
+
+- **Ảnh 1 · K5, AI trả lời người mua đang doạ:** `prototype/screenshots/1-k5-ai-tra-loi.png`
+- **Ảnh 2 · K5, người bán gửi bằng chứng, trưởng nhóm sắp từ chối khiếu nại:** `prototype/screenshots/2-k5-truong-nhom-duyet.png`
+
+| Số | Ảnh | Thể hiện gì | Nguyên tắc HAX/PAIR | Mức tự chủ |
+|---|---|---|---|---|
+| **1** | 1, 2 | **Thẻ "Đối chiếu bằng chứng"**: mỗi dòng ghi nguồn ("ảnh #2 của bạn, đối chiếu dòng 'có tem phụ nhập khẩu'"), đầu thẻ ghi "so với mô tả lúc đặt · 10/11 20:14". Trưởng nhóm (ảnh 2) và người bán thấy **cùng** thẻ. Ở K4, thẻ là hai cột *Lúc đặt \| Hiện tại* với dòng ANC bị gạch. | **G11**, PAIR *Explainability + Trust* | — (AI đối chiếu, không ra quyết định) |
+| **2** | 1 | Câu *"mình **chưa có căn cứ** để nói hàng không đúng mô tả"*, ngay dưới thẻ. Ở K4 nhánh phụ là *"mình **không thể xác nhận**"*. | **G10** | — |
+| **3** | 1, 2 | **Nhãn đầu khung chat** "Trợ lý AI · hướng dẫn và đối chiếu, không quyết định hoàn tiền", và dòng **"Ai quyết: Bạn / Người bán / Trưởng nhóm"** trên thanh tiến trình. | **G1** (+ Luật AI 134/2025, Điều 11 khoản 1) | — |
+| **4** | 1, 2 | **Nhãn mức chắc theo từng điểm**: Khớp · Khớp · Chưa đủ căn cứ · Chưa kiểm. Không có con số % chung. | **G2** | — |
+| **5** | 2 | Nút **"Rút lại"** trên thẻ "Đã chuyển trưởng nhóm". Trong luồng còn có bản nháp yêu cầu trả hàng do AI điền sẵn, kèm *Sửa lý do · Huỷ bản nháp* và link *"Không phải dòng này?"*. | **G9** (sửa dễ dàng) | **tự làm, sửa/huỷ được**: `soan_hoan_tien` bước soạn, `yeu_cau_bang_chung`, `chuyen_truong_nhom` |
+| **6** | 2 | Ô xác nhận **"Từ chối khiếu nại?"**: ghi rõ "tiền giải ngân cho người bán… khó đảo lại". Nút chỉ bấm được sau khi tick *"Tôi đã xem bằng chứng của cả hai bên"*. Phía người bán có ô tương tự cho bước chuyển tiền. | PAIR *Explainability* (người duyệt thấy bằng chứng, không thấy "AI đề xuất") | **cần người duyệt**: `tu_choi_khieu_nai`, `soan_hoan_tien` bước chuyển tiền |
+| **7** | 2 | Hộp viền đứt **"`phat_shop`: cấm trong luồng này, không có nút"**. Ở phía người mua chỉ có nút "Báo nghi hàng giả" sang bộ phận chuyên trách. | **G1** (nói rõ việc AI không làm) | **cấm** |
+| **8** | 2 | Thẻ **"Đã chuyển trưởng nhóm"**: phản hồi trong 24 giờ, thứ tự "theo hạn xử lý, như mọi hồ sơ". Ở tab trưởng nhóm, lời doạ có nhãn *"Lời đe doạ – không phải căn cứ – không tăng ưu tiên"*. | PAIR *Errors + Graceful Failure* (luôn có đường lui) | chuyển người (`chuyen_truong_nhom` tự làm theo luật kích hoạt) |
+
+### Quyết định: cách hiện độ chắc / bằng chứng và điều khiển mức tự chủ
+
+**1. Độ chắc hiện bằng nhãn theo từng điểm, kèm nguồn, thay vì một con số.**
+- **Đã cân nhắc:**
+  - thanh phần trăm ("khớp mô tả 82%");
+  - nhãn chung "độ tin cậy cao / trung bình / thấp".
+- **Lý do loại:**
+  - Con số chung tạo cảm giác chính xác giả (§3, G2).
+  - Ở K5, người mua sẽ cãi lại con số, còn người bán không biết mình đang đúng ở điểm nào.
+  - Con số cũng gộp bằng chứng đo được (tem, mã lô) với cảm nhận không đo được (mùi), trong khi hai loại này có trọng lượng khác hẳn nhau.
+  - Ở K4, câu hỏi quan trọng không phải "AI chắc bao nhiêu" mà là **"so với bản nào"**. Chỉ hai cột có ngày giờ mới trả lời được câu đó.
+- **Chọn:** thẻ đối chiếu, mỗi dòng có trạng thái và nguồn, hiện **giống nhau** ở cả ba màn hình. Như vậy "trung lập" là thứ nhìn thấy được, không chỉ là lời hứa.
+
+**2. Điều khiển mức tự chủ: AI điền sẵn nhưng người mua tự gửi; nút chuyển tiền nằm ở màn hình người duyệt.**
+- **Đã cân nhắc:**
+  - **(a)** AI tự gửi yêu cầu sau vài giây, có nút hoàn tác. Nhóm từng dựng thử phương án này.
+  - **(b)** Nút "Xác nhận hoàn tiền" ngay trong chat của người mua.
+  - **(c)** Chỉ một màn hình người mua; phần người bán và trưởng nhóm mô tả bằng chữ.
+- **Lý do loại:**
+  - **(a)** trái với §3: "không tự gửi, không tự đóng". Nó cũng biến bước soạn thành bước gửi, đúng thứ §4 muốn tách.
+  - **(b)** để bên được lợi tự duyệt, không khác gì AI tự hoàn (K5).
+  - **(c)** không trả lời được câu hỏi của demo bắt buộc: "hai bên thấy gì, và ai quyết".
+- **Chọn:**
+  - Mỗi thẻ trong chat có nhãn mức: *"AI tự soạn · bạn sửa được"*, *"tự làm · rút lại được"*.
+  - Bước tiền đi chỉ có ở tab người bán hoặc trưởng nhóm, trong ô xác nhận ghi hậu quả.
+  - Việc cấm không có nút ở đâu cả, chỉ có một dòng nói rõ là không có.
+
+**3. Màn hình trưởng nhóm không có ô "AI đề xuất".**
+- **Đã cân nhắc:** hiện một dòng "AI đề xuất: từ chối (tem khớp)" để trưởng nhóm duyệt nhanh hơn.
+- **Lý do loại:** theo luật chống thiên lệch ở §4, người duyệt sẽ bấm theo AI, và việc có người duyệt chỉ còn là hình thức.
+- **Chọn:**
+  - Hiện bằng chứng gốc của hai bên cùng thẻ đối chiếu.
+  - Bắt tick *"Tôi đã xem bằng chứng của cả hai bên"* trước khi xác nhận.
+
+**4. Ca lạ đi đường nào.**
+- Ô gõ tự do nhận ra 4 loại tin:
+  - hỏi SĐT/địa chỉ: từ chối và đưa đường thay thế (§1, việc không làm số 3);
+  - đòi khoá shop: cấm, đưa đường báo hàng giả;
+  - tin cụt: hỏi lại một câu kèm danh sách đơn;
+  - hỏi hạn trả hàng: không bịa, chuyển người.
+- Câu không nhận ra thì AI nói *"Mình chưa chắc đã hiểu đúng ý bạn, nên mình không tự làm gì cả"*, đưa 3 lựa chọn, trong đó **luôn có "Gặp nhân viên"**.
+- Không có nhánh nào mà AI chạm tới tool tiền khi chưa hiểu ý người dùng.
 
 ## §6. Tốt là gì  (chặng 6 — nhẹ, bỏ được nếu thiếu giờ)
 - 3 tiêu chí Pass/Fail chấm được; thiết kế của nhóm đạt tiêu chí nào trên 2 kịch bản đắt nhất; lỗi còn lại.
