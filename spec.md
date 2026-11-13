@@ -179,15 +179,74 @@ Thiết kế có **hai nhánh**, tuỳ hệ thống có bản lưu mô tả lúc
 Điểm này nối sang §4: với tool "cần người duyệt", điều quan trọng là **người duyệt thấy gì**, không chỉ là có người duyệt.
 
 ## §4. Mức tự chủ  (chặng 4)
-Với mỗi tool:
-- Mức của nhóm (tự làm / cần người duyệt / cấm). Nếu cần người duyệt: ai duyệt · người duyệt thấy gì · quá hạn thì sao.
-- Lý do theo cost-of-error: sai thì ai chịu gì · đảo lại được không · chờ người thì mất gì.
-- Phương án đã cân nhắc và vì sao loại.
-Thêm:
-- Tool khó xếp nhất: mỗi người từng chọn gì, cái giá của mỗi phía (trỏ về kịch bản ở §2), nhóm chốt thế nào.
-- Thử mức đã đặt trên 2 kịch bản đắt nhất + 1 kịch bản bình thường: cái sai có bị chặn không? còn việc nào làm khi lẽ ra phải hỏi? người dùng bình thường có phải chờ vô ích không?
-- Luật thêm hoặc tool tách bước (nếu có), và vì sao.
-- Một mức tự chủ đã đổi lời hứa nào với người dùng.
+
+### 1. Phân mức tự chủ cho từng tool theo Cost-of-Error
+
+Nhóm áp dụng nguyên tắc: **tác vụ thu thập/đối chiếu dữ liệu cho AI tự làm; tác vụ chuyển dịch tài sản và chế tài bắt buộc phải có người duyệt hoặc cấm.**
+
+| Tool | Mức tự chủ | Ai duyệt · Thấy gì · Quá hạn thì sao | Lý do theo Cost-of-error (Sai ai chịu · Đảo được không · Chờ mất gì) | Phương án đã loại & Vì sao |
+|---|---|---|---|---|
+| `yeu_cau_bang_chung` | **Tự làm** *(có điều kiện)* | Không cần duyệt. AI tự kích hoạt form xin bằng chứng khi đã xác định mã đơn và đối chiếu bản lưu.<br>*(Điều kiện: chỉ xin **đúng một** thứ còn thiếu như video ANC ở K4, hoặc ảnh chi tiết ở K5; không xin chung chung).* | - **Sai ai chịu:** Người dùng nhận một yêu cầu gửi ảnh/video; tự thấy và bỏ qua hoặc gửi lại được (K10). Thiệt hại nhẹ, không mất tiền.<br>- **Đảo lại:** Tin đã gửi đi không thu hồi được, nhưng người dùng gửi tin làm rõ tiếp theo được.<br>- **Chờ người mất gì:** Chờ rất đắt! Bắt nhân viên duyệt từng tin xin ảnh sẽ làm nghẽn hệ thống, người mua đợi lâu dễ trôi quá hạn trả hàng. | *Loại 'Cần người duyệt':* Làm chậm luồng xử lý không cần thiết cho một tác vụ chỉ mang tính thu thập dữ liệu.<br>*Loại 'Tự làm không điều kiện':* Sẽ gây lỗi K2 (đoán mò đơn) hoặc K10 (xin ảnh vòng vo). |
+| `chuyen_truong_nhom` | **Tự làm** *(theo luật kích hoạt)* | Không cần duyệt. AI tự động chuyển khi: (a) K4 nhánh phụ: không có bản lưu; (b) Người mua bấm [Báo nghi hàng giả]; (c) Hai bên không thống nhất sau 48h; (d) Người mua bấm [Gặp nhân viên]. | - **Sai ai chịu:** Trưởng nhóm/nhân viên nhận thêm một hồ sơ (tăng chi phí vận hành nhẹ), nhưng người mua và người bán an toàn tuyệt đối về tài sản.<br>- **Đảo lại:** Rất dễ (nhân viên lướt qua thấy ca đơn giản có thể xử lý trong một click).<br>- **Chờ người mất gì:** Đây là lối thoát hiểm dự phòng (fallback). Nếu bắt "phải xin phép mới được chuyển người" thì khi AI bế tắc, người dùng bị bỏ rơi hoàn toàn. | *Loại 'Cần duyệt':* Không thể bắt người dùng phải xin phép AI để được gặp con người khi đang tranh chấp. |
+| `soan_hoan_tien` | **Tách 2 bước:**<br>1. Soạn form: **Tự làm**<br>2. Chuyển tiền: **Cần người duyệt** | - **Ai duyệt bước chuyển tiền:**<br>  + Tầng 1: **Người bán** duyệt (hạn 48 giờ).<br>  + Tầng 2: **Trưởng nhóm / Nhân viên sàn** duyệt (khi người bán từ chối hoặc quá hạn).<br>- **Người duyệt thấy gì:** Thẻ đối chiếu mô tả (bản lưu vs hiện tại), video/ảnh hai bên, lịch sử sửa trang. **Tuyệt đối không hiện kết luận "AI đề xuất hoàn"** để tránh thiên lệch tự động (automation bias) đã nêu ở §3.<br>- **Quá hạn thì sao:** Quá 48h người bán không bấm, hệ thống chuyển hồ sơ sang hàng đợi ưu tiên của Trưởng nhóm xử lý trong 24h, không tự động hoàn tiền. | - **Sai ai chịu:** Người bán mất cả hàng lẫn tiền (K5), sàn mất uy tín trung lập.<br>- **Đảo lại:** **Khó** (tiền đã về tài khoản ngân hàng/ví cá nhân của người mua).<br>- **Chờ người mất gì:** Người mua phải chờ đối soát (tối đa 48h), nhưng đây là cái giá bắt buộc để bảo vệ sự công bằng hai phía. | *Loại 'Tự làm':* Nếu AI tự bấm hoàn tiền, hệ thống sẽ sụp đổ trước các kịch bản đe doạ tống tiền (K5) hoặc người mua đo sai thông số kỹ thuật (K3). |
+| `tu_choi_khieu_nai` | **Cần người duyệt** | - **Ai duyệt:** Bắt buộc là **Trưởng nhóm / Nhân viên sàn**.<br>- **Người duyệt thấy gì:** Toàn bộ hồ sơ đối chiếu, bằng chứng hai bên, lý do người mua không đồng ý với mô tả.<br>- **Quá hạn thì sao:** Không có khái niệm "quá hạn tự động từ chối". Nếu quá 24h nhân viên chưa xem, hệ thống tự động đẩy cờ cảnh báo SLA lên cấp quản lý ca. | - **Sai ai chịu:** Người mua mất tiền, giữ món hàng lỗi/sai (K4), mất niềm tin vào sàn.<br>- **Đảo lại:** **Khó** (tiền giải ngân quyết toán cho shop, đơn đóng lại).<br>- **Chờ người mất gì:** Chờ thêm để có quyết định thẩm định từ con người, tránh kết luận oan cho khách khi người bán lén xoá mô tả (K4). | *Loại 'Tự làm':* Ngăn chặn tuyệt đối việc AI máy móc so với mô tả hiện tại rồi tự đóng khiếu nại của người mua (K4). |
+| `phat_shop` | **CẤM** | Cấm hoàn toàn trong luồng Trò chuyện với Shopee. Không có nút, không có API gọi tool này trong luồng. | - **Sai ai chịu:** Toàn bộ gian hàng bị phong toả, mất doanh thu, mất việc làm nhân công, rủi ro pháp lý.<br>- **Đảo lại:** Khó, để lại di chứng uy tín nặng nề cho shop.<br>- **Chờ người:** Xử phạt shop thuộc thẩm quyền độc quyền của Bộ phận Kiểm soát Gian lận (Trust & Safety) qua quy trình điều tra độc lập, không làm trong luồng khiếu nại đơn lẻ (§1, việc không làm số 2). | *Loại 'Tự làm' và loại cả 'Cần duyệt trong chat':* Nằm ngoài phạm vi thẩm quyền của trợ lý đơn hàng. |
+
+---
+
+### 2. Tool khó xếp nhất: `soan_hoan_tien` (ở bước chuyển tiền thực tế)
+
+- **Tranh luận nội bộ trong nhóm:**
+  - *Thành viên 1:* Đề xuất cho AI **Tự làm** đối với các đơn hàng giá trị nhỏ (dưới 100k) khi khách gửi ảnh có vẻ hợp lý, để tạo trải nghiệm hoàn tiền tức thì (Instant Refund).
+  - *Thành viên 2:* Đề xuất **Cần Nhân viên sàn duyệt 100% mọi ca**, không cho Người bán duyệt để đảm bảo tính khách quan tuyệt đối.
+  - *Thành viên 3:* Đề xuất mô hình **Duyệt 2 tầng: Người bán duyệt trước, Nhân viên duyệt sau**.
+- **Cái giá của mỗi phía (trỏ về kịch bản ở §2):**
+  - *Cái giá nếu cho Tự làm đơn nhỏ:* Sập bẫy ngay ở **K5** (nước hoa chiết giá rẻ dọa bóc phốt) và **K3** (khách đo sai dung tích nồi). Kẻ gian sẽ lợi dụng tài khoản ảo khiếu nại hàng loạt đơn nhỏ để trục lợi, người bán nhỏ lẻ bị tước đoạt tài sản mà không thể kêu ai.
+  - *Cái giá nếu bắt Nhân viên duyệt 100%:* Ở **K1** (shop gửi nhầm size áo và đã nhận lỗi trong chat), cả người mua và người bán đều đồng thuận hoàn tiền nhưng phải xếp hàng đợi nhân viên sàn 24-48 giờ. Hàng trăm nghìn đơn đơn giản sẽ làm tê liệt đội ngũ hỗ trợ.
+- **Cách nhóm chốt:**
+  - Chốt theo phương án **Duyệt 2 tầng**: AI chỉ soạn sẵn hồ sơ. Quyền duyệt hoàn tiền trước tiên trao cho **Người bán** trong thời hạn 48 giờ (nếu shop tự nguyện nhận lỗi thì tiền hoàn ngay như K1). Nếu người bán từ chối hoặc im lặng quá 48h, quyền duyệt chuyển sang **Nhân viên sàn** (như K4, K5).
+
+---
+
+### 3. Thử nghiệm mức tự chủ trên 3 kịch bản
+
+1. **Trên K4 (Người bán sửa mô tả — Ca đắt 1):**
+   - *AI làm gì:* AI tự động điền form yêu cầu trả hàng, đính kèm thẻ đối chiếu bản lưu lúc đặt (10/11) vs hiện tại (12/11), và gọi `yeu_cau_bang_chung` xin đúng video test ANC. Sau khi người mua gửi, hồ sơ chuyển sang người bán (48h). Người bán không đồng ý -> chuyển Trưởng nhóm.
+   - *Đánh giá 3 câu:*
+     - *Cái sai ở chặng 2 có bị chặn không:* **Bị chặn 100%**. Tool `tu_choi_khieu_nai` bị khoá ở mức cần nhân viên duyệt, AI không thể tự ý đóng khiếu nại của khách.
+     - *Có việc nào AI vẫn làm khi lẽ ra phải hỏi:* Không. AI chỉ xin đúng 1 video cần thiết.
+     - *Người dùng bình thường có phải chờ vô ích không:* Không. Đây là ca tranh chấp phức tạp có yếu tố chỉnh sửa dữ liệu, việc chờ nhân viên thẩm định là cần thiết.
+2. **Trên K5 (Doạ bóc phốt, người bán đúng tem — Ca đắt 2):**
+   - *AI làm gì:* Dù khách đe doạ gay gắt, AI **bị chặn cứng không thể gọi `soan_hoan_tien`**. AI chỉ gửi thẻ đối chiếu tem/mã QR khớp mô tả, thông báo "chưa đủ căn cứ hoàn ngay" và đưa 3 lựa chọn (chụp điểm khác, báo hàng giả, hoặc gửi yêu cầu để shop giải trình trong 48h).
+   - *Đánh giá 3 câu:*
+     - *Cái sai ở chặng 2 có bị chặn không:* **Bị chặn 100%**. Người bán đúng được bảo vệ, tiền không bị chuyển đi dưới áp lực đe doạ.
+     - *Có việc nào làm khi lẽ ra phải hỏi:* Không. AI không hứa hẹn phạt shop hay cam kết bồi hoàn.
+     - *Người dùng bình thường có phải chờ vô ích không:* Không.
+3. **Trên K1 (Khách đặt size L nhận size M, shop đã nhận gửi nhầm — Ca bình thường):**
+   - *AI làm gì:* AI soạn sẵn form yêu cầu trả hàng đúng lý do "giao sai size", đính kèm ảnh chụp tem mác. Người mua bấm [Gửi yêu cầu]. Thông báo chuyển ngay sang app của người bán kèm nút [Đồng ý trả hàng/hoàn tiền]. Người bán bấm duyệt -> tiền hoàn tất cho khách.
+   - *Đánh giá 3 câu:*
+     - *Cái sai có bị chặn không:* Không phát sinh sai sót; ngăn chặn việc AI tin lời kể mà không qua hệ thống xác nhận.
+     - *Có việc nào làm khi lẽ ra phải hỏi:* Không.
+     - *Người dùng bình thường có phải chờ vô ích không:* **Hoàn toàn KHÔNG phải chờ vô ích**. Nhờ trao quyền duyệt tầng 1 cho người bán, ca bình thường được giải quyết chỉ trong vài phút mà không cần xếp hàng đợi nhân viên sàn.
+
+---
+
+### 4. Luật thêm và Tool tách bước
+
+- **Tách bước đối với `soan_hoan_tien`:**
+  - Tách thành **Bước soạn thảo** (AI điền sẵn thông tin, đính kèm thẻ đối chiếu — *Tự làm*) và **Bước thực thi chuyển tiền** (bấm nút giải phóng tiền — *Cần người duyệt*).
+  - *Ý nghĩa:* Vừa giữ được tốc độ hỗ trợ cho người mua (không phải tự mò form), vừa triệt tiêu rủi ro mất tiền oan cho người bán khi gặp các kịch bản đe doạ (K5) hoặc đo nhầm thông số (K3).
+- **Luật bảo vệ người duyệt (Anti-Bias Rule):**
+  - Màn hình của người duyệt (người bán và trưởng nhóm) **chỉ hiển thị bằng chứng thô và thẻ đối chiếu dữ liệu**, tuyệt đối không hiển thị dòng chữ *"AI khuyến nghị: Hoàn tiền / Từ chối"* để buộc con người phải thực sự thẩm định bằng chứng trước khi bấm duyệt.
+
+---
+
+### 5. Một mức tự chủ đã đổi lời hứa nào với người dùng
+
+- **Lời hứa cũ (nếu để AI tự do):** *"Shopee AI sẽ tự động phân xử và hoàn tiền ngay lập tức cho bạn trong cuộc trò chuyện này."*  
+  -> **Hậu quả:** Khách hàng ngộ nhận bot là nơi đòi tiền nhanh; khi gặp ca khó mà bot từ chối thì lập tức nổi giận, chửi bới và dùng lời đe doạ để ép bot nhượng bộ.
+- **Lời hứa mới (sau khi thiết lập mức tự chủ):** *"Shopee AI là trợ lý hỗ trợ đối chiếu khách quan và chuẩn bị hồ sơ cho bạn. Quyết định bồi hoàn được giải quyết minh bạch giữa bạn và người bán trong 48 giờ, hoặc do nhân viên Shopee phân xử."*  
+  -> **Giá trị mang lại:** Đặt lại kỳ vọng chuẩn xác ngay từ đầu (Expectation Alignment). Người mua hiểu rằng muốn được hoàn tiền thì phải dựa trên **bằng chứng đo lường được**, chứ không thể dùng áp lực cảm xúc hay lời đe doạ để ép máy tính chuyển tiền.
 
 ## §5. Prototype  (chặng 5)
 - Link hoặc file · công cụ · phần nào mock · có lời gọi AI thật không.
