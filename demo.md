@@ -32,6 +32,17 @@
 
 ---
 
+## Phần 1b · Người A · Trước thiết kế (tuỳ chọn, 40 giây)
+
+Bấm tab **Trước thiết kế · 4 điểm đau** → **Điểm đau 1**. Bot chưa có thiết kế tự hoàn ₫1.450.000 vì bị doạ; thẻ đỏ hiện **ai mất gì** và lời người bán trong đề. Nói:
+> Đây là bot "cho xong". Nó rơi đúng 4 điểm đau của đề: hoàn sai, từ chối sai, vòng vo, và từ chối cho chắc. Giờ xem thiết kế của nhóm xử lý cùng ca này.
+
+Bấm **Xem thiết kế của nhóm xử lý ca này →**. Prototype tự chuyển sang K5 và gửi tin, Người B nhận tiếp từ bước 2 của Phần 2.
+
+> Thiếu giờ thì bỏ phần này. Nếu TA hỏi "trước khi có thiết kế thì sao", mở Điểm đau 2–4 (K4 từ chối sai, K1 vòng vo, nồi chiên từ chối cho chắc).
+
+---
+
 ## Phần 2 · Người B · K5 phía người mua (1 phút 45 giây)
 
 | # | Bấm | Nói |
