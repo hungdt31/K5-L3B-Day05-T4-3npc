@@ -50,12 +50,133 @@
 **Kịch bản nhóm sợ nhất khi demo:** K5. Người xem dễ đứng về phía người mua đang giận; thiết kế phải chứng minh được vì sao AI **không** hoàn tiền mà vẫn không bỏ rơi người mua.
 
 ## §3. Khi AI sai  (chặng 3)
-Với mỗi kịch bản đắt nhất:
-- AI nói gì (nguyên văn) · người dùng thấy gì · làm gì tiếp · ai được báo, sau bao lâu.
-- Quyết định: hỏi lại / trả lời kèm giới hạn / dừng và chuyển người — chọn cách nào, đã loại cách nào, vì sao.
-- Loại lỗi (hệ thống / người dùng / ngữ cảnh) và vì sao cách nói, cách sửa đi theo loại đó.
-- 2–3 nguyên tắc HAX/PAIR, mỗi cái trỏ vào một chỗ cụ thể (câu chữ hoặc chỗ trên màn hình).
-- Lỗi nào sửa câu chữ không cứu được (nếu có), và thiết kế cứu nó thế nào.
+
+**Giả định thời gian của nhóm** (track không cho số): người bán có **48 giờ** để phản hồi khiếu nại; trưởng nhóm hoặc bộ phận chuyên trách phản hồi trong **24 giờ** kể từ lúc nhận hồ sơ. Ngày dựng cho ví dụ: đặt đơn 10/11, hôm nay 13/11.
+
+**Luật chung cho cả hai kịch bản:** AI luôn tự giới thiệu là AI; AI **không bao giờ** nói ai thắng, ai thua; mọi câu "mô tả ghi…" phải trích từ **bản lưu mô tả lúc đặt**, kèm ngày giờ.
+
+---
+
+### K4 — Người bán đã sửa mô tả sau khi bán (tai nghe ANC)
+
+Thiết kế có **hai nhánh**, tuỳ hệ thống có bản lưu mô tả lúc đặt hay không. Nhánh chính là nhánh có bản lưu.
+
+**AI nói (nguyên văn, nhánh chính: có bản lưu):**
+> Mình là trợ lý AI của Shopee. Mình đã so khiếu nại của bạn với **mô tả tại lúc bạn đặt hàng (10/11, 20:14)**, không phải mô tả đang hiển thị. Mô tả lúc đặt có dòng "Chống ồn chủ động ANC"; dòng này **được shop cập nhật ngày 12/11**, sau khi bạn đặt.
+> Bước tiếp theo: bạn gửi yêu cầu trả hàng với lý do "Không đúng mô tả – thiếu ANC". Mình đã điền sẵn lý do và đính kèm bản đối chiếu mô tả. Bạn chỉ cần thêm **một video ngắn** bật thử chế độ chống ồn, để người bán và nhân viên cùng kiểm.
+> Mình **không quyết định** việc hoàn tiền. Sau khi bạn gửi, người bán có 48 giờ để phản hồi; nếu hai bên không thống nhất, nhân viên Shopee sẽ xem xét.
+
+**AI nói (nguyên văn, nhánh phụ: không có bản lưu):**
+> Mình chưa tìm thấy bản lưu mô tả tại lúc bạn đặt đơn này, nên mình **không thể xác nhận** trước đó trang có ghi ANC hay không. Mình cũng sẽ không so với mô tả đang hiển thị, vì mô tả đó có thể đã thay đổi. Mình đã chuyển hồ sơ cho nhân viên để kiểm lịch sử chỉnh sửa của trang; bạn sẽ nhận phản hồi trong 24 giờ. Nếu bạn còn ảnh chụp trang lúc mua thì gửi thêm giúp mình (không bắt buộc).
+
+**Người dùng (người mua) thấy gì:**
+- Đầu khung chat: nhãn **"Trợ lý AI · hướng dẫn và đối chiếu, không quyết định hoàn tiền"**.
+- **Thẻ "Đối chiếu mô tả"**, hai cột: *Lúc bạn đặt (10/11 20:14)* | *Hiện tại (sửa 12/11)*. Dòng "Chống ồn chủ động ANC" ở cột hiện tại bị **gạch, ghi "đã xoá"**.
+- Nhãn mức chắc theo **từng điểm**, không theo một con số chung:
+  - "ANC có trong mô tả lúc đặt: **Có**. Căn cứ: bản lưu hệ thống."
+  - "Hàng nhận về có ANC không: **Chưa kiểm**. Cần video."
+- **Form yêu cầu trả hàng điền sẵn** (lý do, thẻ đối chiếu đính kèm), có ô thêm video. Ba nút: **[Gửi yêu cầu]** · **[Sửa lý do]** · **[Gặp nhân viên]**. Có thêm liên kết "Không phải dòng này" để người mua sửa nếu AI chỉ nhầm dòng mô tả.
+- Thanh tiến trình: *Gửi yêu cầu → Người bán phản hồi (≤ 48 giờ) → Nhân viên xem xét (nếu cần)*.
+- Dòng **"Đã ghi nhận khiếu nại lúc 14:05, 13/11"**, để người mua có mốc thời gian mà không cần AI hứa gì về chính sách.
+
+**Người mua làm gì tiếp:** thêm video rồi bấm [Gửi yêu cầu]; hoặc sửa lý do; hoặc gặp nhân viên. **Nếu không làm gì:** bản nháp được giữ, AI nhắc **một lần** sau 24 giờ; **không tự gửi**, không tự đóng khiếu nại.
+
+**Ai được báo, sau bao lâu, thấy gì:**
+- **Người bán**, ngay khi người mua bấm gửi. Thấy: lý do khiếu nại, **cùng thẻ đối chiếu** (bản lưu, bản hiện tại, ngày sửa), video, đồng hồ đếm 48 giờ. Hai nút: [Đồng ý trả hàng] · [Gửi bằng chứng phản hồi].
+- **Trưởng nhóm** (`chuyen_truong_nhom`), khi hai bên không thống nhất **hoặc** người bán quá 48 giờ không phản hồi. Quá hạn thì hồ sơ **chuyển người**, không tự hoàn. Thấy: thẻ đối chiếu, bằng chứng hai bên, cờ thông tin "mô tả được sửa sau khi có đơn". Cờ chỉ ghi sự kiện, không kết luận người bán gian lận (người bán có thể đang sửa một lỗi đánh máy thật).
+- Ở **nhánh phụ**, trưởng nhóm được báo **ngay** và phải phản hồi người mua trong 24 giờ.
+
+**Quyết định: trả lời kèm giới hạn** (nhánh chính) / **dừng và chuyển người** (nhánh phụ).
+
+| Phương án | Chọn hay loại | Vì sao |
+|---|---|---|
+| Trả lời kèm giới hạn | **Chọn** (khi có bản lưu) | Bản lưu là căn cứ chắc nên AI nói được sự thật đã kiểm. "Giới hạn" là phần AI chưa kiểm được (hàng có ANC không) và việc AI không quyết hoàn tiền. Người mua biết ngay bước tiếp theo, đúng lát cắt. |
+| Hỏi lại | Loại | Thông tin đã đủ để biết bước tiếp theo. Hỏi thêm là lặp lại đúng lời than của người mua trong track ("gửi ảnh rồi mà cứ bị hỏi lại"), như K10. Chỉ xin **một** thứ cần thiết: video. |
+| Chuyển người ngay | Loại ở nhánh chính, **chọn ở nhánh phụ** | Có bản lưu mà vẫn chuyển thì người mua chờ thêm 24 giờ vô ích và tốn nhân viên. Không có bản lưu thì AI không còn căn cứ nào an toàn: so với mô tả hiện tại sẽ gây đúng lỗi K4, nên phải chuyển. |
+
+**Loại lỗi: lỗi ngữ cảnh** (nhánh chính) và **lỗi hệ thống** (nhánh phụ).
+- **Vì sao là lỗi ngữ cảnh:** một hệ thống so khiếu nại với "mô tả sản phẩm" là **chạy đúng thiết kế**, nhưng sai với tình huống của người mua, vì mô tả đã đổi sau khi họ mua (PAIR: *context error*).
+  - *Cách nói:* nêu sự kiện có ngày giờ ("được cập nhật ngày 12/11"). Không nói "có thể bạn nhớ nhầm" (đổ lỗi người mua), không nói "shop đã gian lận" (kết tội người bán, mất trung lập).
+  - *Cách sửa:* sửa **thiết kế** (luôn so với bản lưu), không chỉ sửa câu chữ. Xem mục "lỗi sửa câu chữ không cứu được" bên dưới.
+- **Vì sao nhánh phụ là lỗi hệ thống:** hệ thống thiếu dữ liệu cần có.
+  - *Cách nói:* AI **nhận giới hạn của hệ thống** ("mình chưa tìm thấy bản lưu") và không đẩy gánh chứng minh sang người mua: ảnh chụp trang lúc mua là "không bắt buộc".
+  - *Cách sửa:* chuyển người kèm thời hạn.
+
+---
+
+### K5 — Doạ bóc phốt, bằng chứng đo được lại khớp mô tả (nước hoa)
+
+**AI nói (nguyên văn):**
+> Mình là trợ lý AI của Shopee. Mình hiểu bạn đang rất bực khi mùi nước hoa không như mong đợi. Mình đã so ảnh bạn gửi với **mô tả lúc bạn đặt hàng**:
+> • Tem phụ nhập khẩu: **khớp** mô tả.
+> • Mã QR / mã lô: **khớp** mã lô ghi trong mô tả.
+> • Mùi, độ lưu hương: mô tả không ghi tiêu chí này và ảnh không cho thấy được, nên mình **chưa có căn cứ** để nói hàng không đúng mô tả.
+> Vì vậy mình chưa thể hướng dẫn hoàn tiền ngay hôm nay. Bạn có ba cách:
+> 1. Nếu bạn thấy điểm nào khác mô tả (vỏ chai, dung tích, mã vạch, hạn dùng…), chụp giúp mình **đúng điểm đó**.
+> 2. Nếu bạn nghi đây là hàng giả, mình chuyển cho **bộ phận chuyên kiểm tra hàng giả**. Bên đó xác minh; mình không quyết định việc xử phạt shop.
+> 3. Bạn vẫn có thể gửi yêu cầu trả hàng với lý do của bạn; mình sẽ đính kèm phần đối chiếu ở trên để người bán và nhân viên cùng xem.
+> Hồ sơ được xem xét theo bằng chứng của cả hai bên, nên mình tập trung vào bằng chứng để bạn không mất thêm thời gian.
+
+**Người dùng (người mua) thấy gì:**
+- Cùng nhãn đầu khung chat như K4.
+- **Thẻ "Đối chiếu bằng chứng"**, ba dòng. Mỗi dòng có trạng thái và **nguồn**:
+  - ✅ Tem phụ: **Khớp**. Nguồn: ảnh #2 của bạn, đối chiếu với dòng "có tem phụ nhập khẩu" trong mô tả lúc đặt.
+  - ✅ Mã QR / mã lô: **Khớp**. Nguồn: ảnh #3 của bạn, đối chiếu với mã lô trong mô tả lúc đặt.
+  - ⚪ Mùi / lưu hương: **Chưa đủ căn cứ**. Lý do: mô tả không có tiêu chí này.
+- Bốn nút: **[Chỉ ra điểm khác mô tả]** (mở tải ảnh) · **[Báo nghi hàng giả]** · **[Vẫn gửi yêu cầu trả hàng]** · **[Gặp nhân viên]**.
+- **Không có** nút "Hoàn tiền ngay", **không có** nút "Phạt shop" (§1, việc không làm số 1 và 2).
+
+**Người mua làm gì tiếp:** chụp đúng điểm khác mô tả; hoặc báo nghi hàng giả; hoặc vẫn gửi yêu cầu trả hàng; hoặc gặp nhân viên. Người mua **không bị chặn quyền khiếu nại**: AI chỉ không xác nhận điều nó không có căn cứ. **Nếu không làm gì:** khiếu nại **không bị đóng** (AI không gọi `tu_choi_khieu_nai`), AI nhắc một lần sau 24 giờ.
+
+**Ai được báo, sau bao lâu, thấy gì:**
+- **Người bán**, ngay khi người mua gửi yêu cầu trả hàng. Thấy: lý do của người mua, ảnh, thẻ đối chiếu (gồm cả hai dòng "khớp"), hạn 48 giờ. Người bán **không** thấy nguyên văn lời doạ, vì đó không phải bằng chứng và dễ đẩy hai bên vào cãi nhau.
+- **Bộ phận chuyên trách hàng giả** (qua `chuyen_truong_nhom`), nếu người mua bấm [Báo nghi hàng giả]. Phản hồi người mua trong 24 giờ. Thấy: ảnh tem, mã QR, mã lô.
+- **Trưởng nhóm**, khi hai bên không thống nhất hoặc người bán quá hạn. Thấy: thẻ đối chiếu và bằng chứng hai bên. Lời doạ được gắn nhãn **"Lời đe doạ – không phải căn cứ – không tăng ưu tiên"**; thứ tự ưu tiên xếp theo **hạn xử lý**, không theo mức độ to tiếng.
+
+**Quyết định: trả lời kèm giới hạn**, kèm lối đi sang người cho riêng nghi vấn hàng giả.
+
+| Phương án | Chọn hay loại | Vì sao |
+|---|---|---|
+| Trả lời kèm giới hạn | **Chọn** | AI nói rõ cái đã kiểm (2 điểm khớp) và cái không kiểm được (mùi). Không kết luận cho bên nào, nhưng vẫn cho người mua ba đường đi tiếp. Đây là "dám nói chưa đủ căn cứ" (rubric riêng T4, mục 7) mà không bỏ rơi người mua. |
+| Hướng dẫn hoàn tiền ngay để xoa dịu | Loại | Đúng lỗi K5: người bán đúng mà mất tiền và hàng. Còn dạy người dùng rằng "doạ là được hoàn" (rubric riêng T4, mục 4). |
+| Hỏi lại / xin thêm bằng chứng chung chung | Loại | Người mua đang giận; xin "thêm ảnh" chung chung là vòng vo như K10. AI chỉ mời **một** loại bằng chứng cụ thể ("đúng điểm khác mô tả") và là tuỳ chọn. |
+| Chuyển người ngay vì khách doạ | Loại | Biến lời doạ thành "làn ưu tiên": ai doạ thì được gặp người sớm hơn. Nhân viên nhận hồ sơ từ một khách đang doạ thì dễ nghiêng về khách. Chỉ chuyển cho **bộ phận chuyên trách** khi người mua chủ động báo nghi hàng giả, vì đó là việc ngoài thẩm quyền AI (§1); nút [Gặp nhân viên] vẫn luôn có. |
+
+**Loại lỗi: lỗi phía người dùng** (thứ người mua đưa ra không phải căn cứ đối chiếu được: cảm nhận về mùi và lời doạ), và cái AI phải tránh là **lỗi hệ thống** (để lời doạ dẫn dắt quyết định).
+- **Cách nói:** khác K4, AI **không xin lỗi thay shop**, vì xin lỗi là ngầm thừa nhận hàng lỗi, bất công với người bán. AI ghi nhận cảm xúc ("mình hiểu bạn đang rất bực") nhưng không nhượng về sự thật. **Không đổ lỗi** người mua ("bạn sai"); chỉ nói "chưa có căn cứ" và chỉ cách có căn cứ.
+- **Cách sửa:** đưa đường đi cụ thể (chụp đúng điểm khác, báo hàng giả, vẫn gửi yêu cầu), thay vì sửa câu trả lời. Phần "lỗi hệ thống" được chặn bằng thiết kế: trong chat không có nút hoàn tiền, và lời doạ không đổi luồng xử lý.
+- Nhóm **không** khẳng định người mua sai: hàng có thể là hàng giả thật. Vì thế nghi vấn hàng giả có đường riêng tới bộ phận chuyên trách, chứ không bị gạt đi.
+
+---
+
+### Nguyên tắc HAX/PAIR (3 nguyên tắc, mỗi cái trỏ vào chỗ cụ thể)
+
+- **G11 — Giải thích vì sao.**
+  - K4: **thẻ "Đối chiếu mô tả" hai cột**, có ngày giờ bản lưu và ngày sửa, dòng ANC bị gạch.
+  - K5: mỗi dòng trong thẻ "Đối chiếu bằng chứng" ghi **nguồn** ("ảnh #2 của bạn, đối chiếu với dòng 'có tem phụ nhập khẩu'").
+  - Người dùng tự kiểm được AI dựa vào đâu, thay vì phải tin AI (PAIR *Explainability + Trust*: tin đúng mức).
+- **G10 — Thu hẹp phạm vi khi nghi ngờ.**
+  - K5: câu "mình **chưa có căn cứ** để nói hàng không đúng mô tả… chụp giúp mình **đúng điểm đó**", thay vì kết luận hàng thật hay giả.
+  - K4 nhánh phụ: "mình **không thể xác nhận**… cũng sẽ không so với mô tả đang hiển thị", rồi chuyển người.
+- **G1 + G2 — Làm rõ hệ thống làm được gì, và làm tốt tới đâu.**
+  - G1: **nhãn đầu khung chat** "Trợ lý AI · hướng dẫn và đối chiếu, không quyết định hoàn tiền" và câu "Mình không quyết định việc hoàn tiền". Câu này đồng thời đáp ứng yêu cầu cho người dùng biết đang làm việc với AI (Luật AI 134/2025/QH15, Điều 11 khoản 1).
+  - G2: **nhãn mức chắc theo từng điểm** (Khớp / Chưa kiểm / Chưa đủ căn cứ), không dùng một con số % chung. Lý do: con số "82% đúng mô tả" tạo cảm giác chính xác giả, và không cho biết điểm nào chắc, điểm nào chưa.
+
+---
+
+### Lỗi mà sửa câu chữ không cứu được, và thiết kế cứu thế nào
+
+**1. K4: AI chỉ thấy mô tả hiện tại.** Nếu hệ thống chỉ đưa cho AI mô tả đang hiển thị, thì câu chữ có khéo tới đâu AI vẫn tự tin nói "mô tả ghi…" về một bản mô tả **sai thời điểm**. Thêm "có thể" vào câu không sửa được dữ liệu sai. Thiết kế cứu bằng ba việc:
+- **Bản lưu mô tả bất biến** cho từng đơn tại lúc đặt. Người bán sửa trang thì không làm đổi bản lưu của các đơn cũ.
+- **Luật cứng:** AI chỉ được trích mô tả từ bản lưu, kèm ngày giờ. Không có bản lưu thì **bắt buộc** đi nhánh "không có căn cứ, chuyển người", không được lấy mô tả hiện tại thay vào.
+- Thẻ đối chiếu hiện **cùng một nội dung** cho người mua, người bán và trưởng nhóm, để ba bên nhìn cùng một căn cứ.
+
+**2. K4 và K5: người duyệt bị dẫn dắt bởi cái AI đưa cho họ.** Có người duyệt cũng không đủ, nếu màn hình của trưởng nhóm hiện **kết luận** của AI ("Hàng đúng mô tả", "Khách doạ bóc phốt – ưu tiên xử lý") thay vì **bằng chứng**: người duyệt sẽ bấm theo AI. Thiết kế cứu bằng ba việc:
+- Màn hình trưởng nhóm hiện **thẻ đối chiếu theo từng tiêu chí và bằng chứng gốc hai bên**, không có ô "AI đề xuất: hoàn / từ chối".
+- Lời doạ được gắn nhãn "không phải căn cứ" và **không ảnh hưởng thứ tự ưu tiên**.
+- Hàng chờ xếp theo **hạn xử lý**.
+
+Điểm này nối sang §4: với tool "cần người duyệt", điều quan trọng là **người duyệt thấy gì**, không chỉ là có người duyệt.
 
 ## §4. Mức tự chủ  (chặng 4)
 Với mỗi tool:
